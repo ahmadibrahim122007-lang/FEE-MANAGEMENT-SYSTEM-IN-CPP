@@ -1,1 +1,86 @@
-edggsfs
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "functions.h"
+using namespace std;
+
+void searchStudent()
+{
+    int roll, r, total, paid;
+    string name, line;
+    bool found = false;
+
+    ifstream file("fees.csv");
+
+    cout << "Enter Roll No to search: ";
+    cin >> roll;
+
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        char comma;
+
+        ss >> r >> comma;
+        getline(ss, name, ',');
+        ss >> total >> comma >> paid;
+
+        if (r == roll)
+        {
+            cout << "\nRecord Found\n";
+            cout << "Roll No: " << r << endl;
+            cout << "Name: " << name << endl;
+            cout << "Total Fee: " << total << endl;
+            cout << "Paid Fee: " << paid << endl;
+            cout << "Remaining Fee: " << total - paid << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found)
+        cout << "Student not found!\n";
+
+    file.close();
+}
+
+void deleteStudent()
+{
+    int roll, r, total, paid;
+    string name, line;
+    bool found = false;
+
+    ifstream file("fees.csv");
+    ofstream temp("temp.csv");
+
+    cout << "Enter Roll No to delete: ";
+    cin >> roll;
+
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        char comma;
+
+        ss >> r >> comma;
+        getline(ss, name, ',');
+        ss >> total >> comma >> paid;
+
+        if (r == roll)
+        {
+            found = true;
+            continue;
+        }
+
+        temp << r << "," << name << "," << total << "," << paid << endl;
+    }
+
+    file.close();
+    temp.close();
+
+    remove("fees.csv");
+    rename("temp.csv", "fees.csv");
+
+    if (found)
+        cout << "Record deleted successfully!\n";
+    else
+        cout << "Student not found!\n";
+}
