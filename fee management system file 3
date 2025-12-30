@@ -1,1 +1,50 @@
-mein gujjar ay tay asi nahanday koi nahi 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "functions.h"
+using namespace std;
+
+void payFee()
+{
+    int roll, pay;
+    int r, total, paid;
+    string name, line;
+    bool found = false;
+
+    ifstream file("fees.csv");
+    ofstream temp("temp.csv");
+
+    cout << "Enter Roll No: ";
+    cin >> roll;
+    cout << "Enter Amount to Pay: ";
+    cin >> pay;
+
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        char comma;
+
+        ss >> r >> comma;
+        getline(ss, name, ',');
+        ss >> total >> comma >> paid;
+
+        if (r == roll)
+        {
+            paid += pay;
+            found = true;
+        }
+
+        temp << r << "," << name << "," << total << "," << paid << endl;
+    }
+
+    file.close();
+    temp.close();
+
+    remove("fees.csv");
+    rename("temp.csv", "fees.csv");
+
+    if (found)
+        cout << "Fee paid successfully!\n";
+    else
+        cout << "Student not found!\n";
+}
