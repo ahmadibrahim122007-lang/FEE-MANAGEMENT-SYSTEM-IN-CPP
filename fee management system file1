@@ -1,0 +1,32 @@
+#include <iostream>
+#include "functions.h"
+using namespace std;
+
+int main()
+{
+    int choice;
+    do
+    {
+        menu();
+        cin >> choice;
+
+        if (choice == 1)
+            addStudent();
+        else if (choice == 2)
+            payFee();
+        else if (choice == 3)
+            viewRecords();
+        else if (choice == 4)
+            searchStudent();
+        else if (choice == 5)
+            deleteStudent();
+        else if (choice == 6)
+            cout << "Exiting Program...\n";
+        else
+            cout << "Invalid choice!\n";
+
+    } while (choice != 6);
+
+    return 0;
+}
+    }
