@@ -1,1 +1,32 @@
-fofrug3rugkrhguergerg
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "functions.h"
+using namespace std;
+
+void viewRecords()
+{
+    int roll, total, paid;
+    string name, line;
+
+    ifstream file("fees.csv");
+
+    cout << "\nRoll  Name  Total  Paid  Remaining\n";
+    cout << "---------------------------------\n";
+
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        char comma;
+
+        ss >> roll >> comma;
+        getline(ss, name, ',');
+        ss >> total >> comma >> paid;
+
+        cout << roll << "   " << name << "   "
+             << total << "   " << paid << "   "
+             << (total - paid) << endl;
+    }
+
+    file.close();
+}
